@@ -1,1 +1,12 @@
-<h1>Hello</h1>
+<% @poems.each do |p| %>
+   <%= link_to poem_path(p) do %>
+      <%= p.title %>
+   <% end %>
+
+   <div>
+      <%= sanitize p.body %>
+   </div>
+   
+<% end %>
+
+<%= @total_number_of_poems %>
