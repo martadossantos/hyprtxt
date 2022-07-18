@@ -1,12 +1,79 @@
-<% @poems.each do |p| %>
-   <%= link_to poem_path(p) do %>
-      <%= p.title %>
-   <% end %>
+<div class="index-container">
 
-   <div>
-      <%= sanitize p.body %>
+   <div class="breadcrumbs-drawer">
+      <div class="total">
+         <p>You have visited 3 out of <%= @total_number_of_poems %> poems.</p>
+      </div>
+      <div class="breadcrumbs">
+         <p>
+            <a href="">12345678 / About hyprtxt.net</a>
+         </p>
+         <p>
+            <a href="">12345678 / New Me</a>
+         </p>
+         <p>
+            <a href="">12345678 / Alt Histo</a>
+         </p>
+      </div>
+      
    </div>
-   
-<% end %>
 
-<%= @total_number_of_poems %>
+   <div class="main">
+
+      <% @poems.each do |p| %>
+         <%= link_to poem_path(p) do %>
+            <%= p.title %>
+         <% end %>
+
+         <div>
+            <%= sanitize p.body %>
+         </div>
+         
+      <% end %>
+
+   </div>
+
+   <div class="metadata-drawer">
+      <div class="date">
+         <div>14:21:05 18 July 2022</div>
+         <div>Taipei, Taiwan</div>
+      </div>
+
+      <div class="meta">
+         <div>
+            <div>301 unique visits</div>
+            <div>This poem has been read for 9 minutes</div>
+         </div>
+         <div>
+            <div>1019 total visits</div>
+            <div>Average of 4 mins 29 secs reading time per visit</div>
+         </div>
+      </div>
+
+      <div class="links-to">
+         <h3>Links to this poem</h3>
+         <p><a href="">Link 1</a></p>
+         <p><a href="">Link 2</a></p>
+      </div>
+
+      <div class="links-that">
+         <h3>Links to this poem</h3>
+         <p><a href="">Link 1</a></p>
+         <p><a href="">Link 2</a></p>
+      </div>
+
+      <div class="comments">
+         <h3>Comments</h3>
+         <input type="text" name="" id="">
+         <button>post comment</button>
+      </div>
+
+
+      <%= @total_number_of_poems %>
+   </div>
+
+</div>
+
+
+
+
