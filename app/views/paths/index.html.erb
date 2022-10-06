@@ -1,4 +1,6 @@
-<div class="home-container p-[30px] h-full min-h-screen" style="background-image:url(https://www.tasteofhome.com/wp-content/uploads/2021/06/peonies-QTR-1200x800-GettyImages-1095928994.jpg?fit=700,800); background-size: 375px; background-position: center;">
+<div class="background min-h-screen w-full fixed top-0 left-0" style="background-image:url(https://www.tasteofhome.com/wp-content/uploads/2021/06/peonies-QTR-1200x800-GettyImages-1095928994.jpg?fit=700,800); background-size: 375px; background-position: center; z-index: -99;"></div>
+
+<div class="home-container p-[30px]">
    <div class="w-5/12 fixed top-[30px] left-[30px] bg-white grid grid-cols-2 gap-[30px]">
       <div>
          <p>Forks of art</p>
@@ -10,14 +12,16 @@
       </div>
    </div>
 
-   <div class="bg-white w-[53.5%] ml-auto">
+   <div class="bg-white w-[53.5%] ml-auto z-50">
       <div class="flex flex-row justify-between w-full">
          <p><%= @paths[0].title %></p>
          <p><%= @paths[0].year %></p>
       </div>
       <div>
          <img src="https://media-cdn.tripadvisor.com/media/photo-s/1a/28/1e/f1/club-med-sahoro-hokkaido.jpg" alt="" class="w-full">
-         <img src="" alt="">
+         <img src="https://media-cdn.tripadvisor.com/media/photo-s/1a/28/1e/f1/club-med-sahoro-hokkaido.jpg" alt="" class="w-full">
+         <img src="https://media-cdn.tripadvisor.com/media/photo-s/1a/28/1e/f1/club-med-sahoro-hokkaido.jpg" alt="" class="w-full">
+
       </div>
    </div>
 
