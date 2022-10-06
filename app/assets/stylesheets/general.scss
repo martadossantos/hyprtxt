@@ -38,17 +38,17 @@ $border: 1px solid $accent;
    text-shadow: none;
 }
 
-body {
+.poems-index-container {
    background-color: $medium;
    color: $dark;
    font-family: serif;
 }
 
-a {
+.poems-index-container a {
    color: $accent;
 }
 
-a:visited {
+.poems-index-container a:visited {
    color: $visited;
 }
 
@@ -60,7 +60,7 @@ h3 {
    color: $dark;
 }
 
-.index-container {
+.poems-index-container {
    @include flex-row;
    
    @include mq(700px) {

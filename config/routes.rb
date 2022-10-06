@@ -5,6 +5,6 @@ Rails.application.routes.draw do
 
   resources :poems 
 
-  root "poems#index"
+  root "paths#index"
 
 end
