@@ -9,9 +9,21 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      borderWidth: {
+        '1': '1px'
       },
+      colors: {
+        'pPurple': '#7B68EE',
+        'pLightGreen': '#F0F9EE',
+        'pMediumGreen': '#D0E3D0',
+        'pStrongGreen': '#2E8B57',
+        'pDarkGreen': '#212E08'
+      },
+      fontSize: {
+        '12': '12px',
+        '14': '14px',
+        '17': '17px'
+      }
     },
   },
   plugins: [

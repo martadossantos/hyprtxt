@@ -1,10 +1,10 @@
-<div class="poems-index-container">
+<div class="poems-index-container bg-pMediumGreen text-pDarkGreen font-serif flex flex-col md:flex-row justify-between">
 
-   <div class="breadcrumbs-drawer">
-      <div class="total">
-         <p>You have visited 3 out of <%= @total_number_of_poems %> poems.</p>
+   <div class="breadcrumbs-drawer md:min-h-screen h-auto bg-pLightGreen drop-shadow-xl text-12">
+      <div class="total p-6 border-b-1 border-pPurple">
+         <p>You have visited 3 out of <%= @total_number_of_poems %> forks</p>
       </div>
-      <div class="breadcrumbs">
+      <div class="breadcrumbs p-6">
          <p>
             <a href="">12345678 / About hyprtxt.net</a>
          </p>
@@ -18,7 +18,7 @@
       
    </div>
 
-   <div class="main">
+   <div class="main p-6 text-17">
 
       <% @poems.each do |p| %>
          <%= link_to poem_path(p) do %>
@@ -33,43 +33,35 @@
 
    </div>
 
-   <div class="metadata-drawer">
-      <div class="date">
+   <div class="metadata-drawer md:min-h-screen h-auto bg-pLightGreen drop-shadow-xl text-12">
+      <div class="date p-6 border-b-1 border-pPurple flex flex-row justify-between">
          <div>14:21:05 18 July 2022</div>
          <div>Taipei, Taiwan</div>
       </div>
 
-      <div class="meta">
-         <div>
+      <div class="meta p-6 border-b-1 border-pPurple">
+         <div class="flex flex-row justify-between">
             <div>301 unique visits</div>
-            <div>This poem has been read for 9 minutes</div>
+            <div>This fork has been read for 9 minutes</div>
          </div>
-         <div>
+         <div class="flex flex-row justify-between">
             <div>1019 total visits</div>
             <div>Average of 4 mins 29 secs reading time per visit</div>
          </div>
       </div>
 
-      <div class="links-to">
-         <h3>Links to this poem</h3>
+      <div class="links-to p-6 border-b-1 border-pPurple">
+         <h3 class="text-17">Other links to this fork</h3>
          <p><a href="">Link 1</a></p>
          <p><a href="">Link 2</a></p>
       </div>
 
-      <div class="links-that">
-         <h3>Links to this poem</h3>
-         <p><a href="">Link 1</a></p>
-         <p><a href="">Link 2</a></p>
+      <div class="comments p-6">
+         <h3 class="text-17">Comments</h3>
+         <input type="text" name="" id="" class="w-full">
+         <button class="forks-button">post comment</button>
       </div>
 
-      <div class="comments">
-         <h3>Comments</h3>
-         <input type="text" name="" id="">
-         <button>post comment</button>
-      </div>
-
-
-      <%= @total_number_of_poems %>
    </div>
 
 </div>
