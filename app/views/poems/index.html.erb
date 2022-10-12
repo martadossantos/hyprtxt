@@ -1,19 +1,28 @@
+<%= javascript_pack_tag 'main' %>
+
 <div class="poems-index-container bg-pMediumGreen text-pDarkGreen font-serif flex flex-col md:flex-row justify-between">
 
-   <div class="breadcrumbs-drawer md:min-h-screen h-auto bg-pLightGreen drop-shadow-xl text-12">
-      <div class="total p-6 border-b-1 border-pPurple">
+   <div class="breadcrumbs-drawer md:min-h-screen h-auto bg-pLightGreen drop-shadow-xl text-12 relative">
+      <span class="absolute top-6 right-6 md:hidden">1/<%= @total_number_of_poems %></span>
+      <div class="hidden md:block total p-6 border-b-1 border-pPurple">
          <p>You have visited 3 out of <%= @total_number_of_poems %> forks</p>
       </div>
       <div class="breadcrumbs p-6">
-         <p>
-            <a href="">12345678 / About hyprtxt.net</a>
-         </p>
-         <p>
-            <a href="">12345678 / New Me</a>
-         </p>
-         <p>
-            <a href="">12345678 / Alt Histo</a>
-         </p>
+         <div class="max-h-[54px] overflow-scroll mb-breadcrumbs-container md:block flex flex-col-reverse">
+            <p>
+               <a href="">12345678 / Last Link</a>
+            </p>
+            <p>
+               <a href="">12345678 / New Me</a>
+            </p>
+            <p>
+               <a href="">12345678 / Alt Histo</a>
+            </p>
+            <p>
+               <a href="">12345678 / About hyprtxt.net</a>
+            </p>
+         </div>
+
       </div>
       
    </div>
@@ -22,7 +31,7 @@
 
       <% @poems.each do |p| %>
          <%= link_to poem_path(p) do %>
-            <%= p.title %>
+           <p class="mb-3"><%= p.title %></p>
          <% end %>
 
          <div>
@@ -33,33 +42,52 @@
 
    </div>
 
-   <div class="metadata-drawer md:min-h-screen h-auto bg-pLightGreen drop-shadow-xl text-12">
-      <div class="date p-6 border-b-1 border-pPurple flex flex-row justify-between">
-         <div>14:21:05 18 July 2022</div>
-         <div>Taipei, Taiwan</div>
+   <div class="metadata-drawer md:h-screen h-auto bg-pLightGreen drop-shadow-xl text-12 overflow-scroll">
+      <div class="date p-6 border-b-1 border-pPurple flex md:flex-row flex-col justify-between">
+         <div>
+            <span>
+               <%= Time.now.strftime(" %d %B %Y") %>
+            </span>
+            <span id="time"></span>
+         </div>
+         <div class="mt-3 md:mt-0">
+            <span id="location"></span>
+         </div>
       </div>
 
       <div class="meta p-6 border-b-1 border-pPurple">
-         <div class="flex flex-row justify-between">
-            <div>301 unique visits</div>
+         <div class="flex flex-col md:flex-row justify-between mb-3">
+            <div class="md:mb-0 mb-3">301 unique visits</div>
             <div>This fork has been read for 9 minutes</div>
          </div>
-         <div class="flex flex-row justify-between">
+         <div class="flex flex-col md:flex-row justify-between">
             <div>1019 total visits</div>
-            <div>Average of 4 mins 29 secs reading time per visit</div>
+            <div class="md:ml-3 md:mt-0 mt-3">Average of 4 mins 29 secs reading time per visit</div>
          </div>
       </div>
 
       <div class="links-to p-6 border-b-1 border-pPurple">
-         <h3 class="text-17">Other links to this fork</h3>
+         <h3 class="text-17 mb-3">Other links to this fork</h3>
          <p><a href="">Link 1</a></p>
          <p><a href="">Link 2</a></p>
       </div>
 
       <div class="comments p-6">
-         <h3 class="text-17">Comments</h3>
-         <input type="text" name="" id="" class="w-full">
-         <button class="forks-button">post comment</button>
+         <h3 class="text-17 mb-3">Comments</h3>
+         <textarea name="" rows="7" id="comm-box" class="w-full text-12"></textarea>
+         <button class="forks-button mt-3">post comment</button>
+
+         <div class="post-comms mt-6 max-w-fit">
+            <div class="single-comm mb-3">
+               <p><span class="text-pPurple mr-1.5">01:21:39 30 January 2022</span>I’m not sure why, but this makes me feel like I’m the only one awake on a spaceship. It’s peaceful, but lonely. Filled with purpose, but melancholy. Direct, but subtle.</p>
+            </div>
+            <div class="single-comm mb-3">
+               <p><span class="text-pPurple mr-1.5">22:48:35 17 April 2021</span>I don't know what this makes me feel but its not a normal feeling and I twitch every time the music completely goes off</p>
+            </div>
+            <div class="single-comm mb-3">
+               <p><span class="text-pPurple mr-1.5">15:52:03 27 March 2021</span>This feels like you are the only one left on the planet walking through the car ridden streets, nobody in sight and you just keep walking without a sense of direction or time</p>
+            </div>
+         </div>
       </div>
 
    </div>
