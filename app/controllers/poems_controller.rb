@@ -4,12 +4,13 @@ class PoemsController < ApplicationController
       @poems = Poem.all
 
       @total_number_of_poems = @poems.count
+
    end
 
    def show
       @poem = Poem.find(params[:id])
+
+      render json: @poem
    end
 
-
-   
 end

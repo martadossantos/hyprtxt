@@ -2,9 +2,34 @@
 
 <div class="poems-index-container bg-pMediumGreen text-pDarkGreen font-serif flex flex-col md:flex-row justify-between">
 
+   <div class="main text-17 flex flex-row overflow-x-scroll absolute">
+
+      <div id="new-content">
+      
+      </div>
+
+      <% @poems.each do |p| %>
+         <div class="relative left-1/2">
+            <div class="flex justify-center pr-28 pt-20">
+               <div class="w-content">
+                  <%= link_to poem_path(p) do %>
+                  <p class="mb-3"><%= p.title %></p>
+                  <% end %>
+
+                  <div>
+                     <%= sanitize p.body %>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      <% end %>
+
+   </div>
+
    <div class="breadcrumbs-drawer md:min-h-screen h-auto bg-pLightGreen drop-shadow-xl text-12 relative">
       <span class="absolute top-6 right-6 md:hidden">1/<%= @total_number_of_poems %></span>
-      <div class="hidden md:block total p-6 border-b-1 border-pPurple">
+      <div class="hidden md:block total p-6 md:pt-20 border-b-1 border-pPurple">
          <p>You have visited 3 out of <%= @total_number_of_poems %> forks</p>
       </div>
       <div class="breadcrumbs p-6">
@@ -27,23 +52,8 @@
       
    </div>
 
-   <div class="main p-6 text-17">
-
-      <% @poems.each do |p| %>
-         <%= link_to poem_path(p) do %>
-           <p class="mb-3"><%= p.title %></p>
-         <% end %>
-
-         <div>
-            <%= sanitize p.body %>
-         </div>
-         
-      <% end %>
-
-   </div>
-
    <div class="metadata-drawer md:h-screen h-auto bg-pLightGreen drop-shadow-xl text-12 overflow-scroll">
-      <div class="date p-6 border-b-1 border-pPurple flex md:flex-row flex-col justify-between">
+      <div class="date p-6 md:pt-20 border-b-1 border-pPurple flex md:flex-row flex-col justify-between">
          <div>
             <span>
                <%= Time.now.strftime(" %d %B %Y") %>

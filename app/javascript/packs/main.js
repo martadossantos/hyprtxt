@@ -20,8 +20,24 @@ document.addEventListener("turbolinks:load", () => {
       let countryName = regionNames.of(jsonResponse.country);
 
       locationEl.innerHTML = jsonResponse.city + ', ' + countryName
-
    }
    )
+
+   
+   let poemUrl = 'http://127.0.0.1:3000/poems/2.json';
+
+   function fetchPoem() {
+         return fetch(poemUrl).then(function(response) {
+            return response.json();
+         }).then(function(json) {
+            return json;
+         });
+   }
+
+   fetchPoem().then(function(result) {
+         console.log(result.title, result.body);
+   });
+
+
 
  })
