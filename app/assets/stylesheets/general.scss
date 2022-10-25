@@ -29,3 +29,13 @@
 .mb-breadcrumbs-container::-webkit-scrollbar { 
    display: none;  /* Safari and Chrome */
 }
+
+.breadcrumbs-container::-webkit-scrollbar,
+.metadata-drawer::-webkit-scrollbar {
+   display: none;
+}
+
+#js-forks-container {
+   left: 33vw;
+   transition: all 0.5s ease-out;
+}
