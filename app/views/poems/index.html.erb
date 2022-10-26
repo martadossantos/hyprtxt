@@ -2,10 +2,10 @@
 
 <div class="poems-index-container bg-pMediumGreen text-pDarkGreen font-serif flex flex-col md:flex-row justify-between">
 
-   <div id="js-forks-container" class="main text-17 flex flex-row overflow-x-scroll absolute pt-20 min-w-screen">
+   <div id="js-forks-container" class="main text-17 flex flex-row relative md:absolute md:pt-20 min-w-screen min-h-screen order-2">
 
       <%# div to duplicate w js %>
-      <div class="md:w-[33vw]">
+      <div class="fork-holder">
          <p class="mb-3">Intro Fork Title</p>
          <div>
             <p>Intro fork body</p>
@@ -18,32 +18,25 @@
 
    </div>
 
-   <div class="breadcrumbs-drawer md:min-h-screen h-auto bg-pLightGreen drop-shadow-xl text-12 relative">
+   <div class="breadcrumbs-drawer md:min-h-screen h-auto bg-pLightGreen drop-shadow-xl text-12 relative order-1">
       <span class="absolute top-6 right-6 md:hidden">1/<%= @total_number_of_poems %></span>
       <div class="hidden md:block total p-6 md:pt-20 border-b-1 border-pPurple">
          <p>You have visited 3 out of <%= @total_number_of_poems %> forks</p>
       </div>
       <div class="breadcrumbs p-6">
-         <div class="max-h-[54px] overflow-scroll mb-breadcrumbs-container md:block flex flex-col-reverse">
-            <p>
-               <a href="">12345678 / Last Link</a>
-            </p>
-            <p>
-               <a href="">12345678 / New Me</a>
-            </p>
-            <p>
-               <a href="">12345678 / Alt Histo</a>
-            </p>
-            <p>
-               <a href="">12345678 / About hyprtxt.net</a>
-            </p>
+         <div class="js-breadcrumbs-container max-h-[54px] md:max-h-auto md:overflow-visible overflow-scroll mb-breadcrumbs-container flex md:flex-col flex-col-reverse">
+
+            <%# tag to repeat %>
+            <a href="">Original Fork</a>
+
+
          </div>
 
       </div>
       
    </div>
 
-   <div class="metadata-drawer md:h-screen h-auto bg-pLightGreen drop-shadow-xl text-12 overflow-scroll">
+   <div class="metadata-drawer md:h-screen h-auto bg-pLightGreen drop-shadow-xl text-12 overflow-scroll order-3">
       <div class="date p-6 md:pt-20 border-b-1 border-pPurple flex md:flex-row flex-col justify-between">
          <div>
             <span>

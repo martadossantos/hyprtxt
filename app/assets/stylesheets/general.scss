@@ -39,3 +39,19 @@
    left: 33vw;
    transition: all 0.5s ease-out;
 }
+
+.fork-holder {
+   width: 33vw;
+}
+
+@media only screen and (max-width: 768px) {
+   #js-forks-container {
+      left: 0px;
+   }
+
+   .fork-holder {
+     padding: 36px 24px;
+     width: 100%;
+     min-width: 100vw;
+   }
+ }

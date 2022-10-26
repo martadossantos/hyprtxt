@@ -1,5 +1,15 @@
 document.addEventListener("turbolinks:load", () => {
 
+   let onMobile = function() {
+      let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+    
+      if (isMobile) {
+          return true
+      } else {
+        return false
+      }
+    };
+
    let 
       timeEl = document.querySelector('#time'),
       locationEl = document.querySelector('#location'),
@@ -23,9 +33,7 @@ document.addEventListener("turbolinks:load", () => {
       locationEl.innerHTML = jsonResponse.city + ', ' + countryName
    }
    )
-
    
-
    function fetchPoem(poemUrl) {
          return fetch(poemUrl).then(function(response) {
             return response.json();
@@ -49,42 +57,68 @@ document.addEventListener("turbolinks:load", () => {
 
          newTitleEl.innerHTML = newPoemTitle;
          newTitleEl.style.marginBottom = '12px';
+         newTitleEl.style.textTransform = 'capitalize';
          newBodyEl.insertAdjacentHTML("afterbegin", newBodyContent);
          forkContainer.appendChild(newTitleEl);
          forkContainer.appendChild(newBodyEl);
-         forkContainer.style.width = '33vw';
+         forkContainer.classList.add('fork-holder');
 
          allForksContainer.appendChild(forkContainer);
 
          let forksContainerPos = window.getComputedStyle(allForksContainer).left;
 
-         allForksContainer.style.left = `calc(${forksContainerPos} - 33vw`;
+         if (!onMobile(forksContainerPos)) {
+      
+            allForksContainer.style.left = `calc(${forksContainerPos} - 33vw`;
+            
+          } else {
 
+            allForksContainer.style.left = `calc(${forksContainerPos} - 100vw`;
+
+          }
 
    });
       
    }
 
+   function addBreadcrumb(forkID, newPoemTitle) {
+      let breadcrumbsContainer = document.querySelector('.js-breadcrumbs-container');
 
-   let allForksLinks = document.querySelectorAll('#js-forks-container a');
+      const breadcrumbLinkEl = document.createElement('a');
+      breadcrumbLinkEl.innerHTML = newPoemTitle;
+      breadcrumbLinkEl.style.textTransform = 'capitalize';
+      breadcrumbLinkEl.setAttribute('href', forkID);
+
+      breadcrumbsContainer.prepend(breadcrumbLinkEl);
+   }
+
+   function onClickPoemLink(event) {
+      event.preventDefault();
+
+      let 
+      forkID = event.target.getAttribute('href'), 
+      poemUrl = `http://127.0.0.1:3000/poems/${forkID}.json`,
+      newPoemTitle = event.target.innerText;
+
+      addNewPoem(poemUrl, newPoemTitle);
+
+      addBreadcrumb(forkID, newPoemTitle);
+   }
+
 
    let 
-   allForksContainer = document.querySelector('#js-forks-container');
+   allForksContainer = document.querySelector('#js-forks-container'),
+   allBreadcrumbsContainer = document.querySelector('.js-breadcrumbs-container');
 
+   allBreadcrumbsContainer.addEventListener('click', function(event) {
+      if (event.target && event.target.nodeName == "A") {
+        onClickPoemLink(event);
+      }
+   });
 
    allForksContainer.addEventListener('click', function(event) {
       if(event.target && event.target.nodeName == "A") {
-
-         event.preventDefault();
-
-         let 
-         forkID = event.target.getAttribute('href'), 
-         poemUrl = `http://127.0.0.1:3000/poems/${forkID}.json`,
-         newPoemTitle = event.target.innerText;
-
-         addNewPoem(poemUrl, newPoemTitle);
-
-
+         onClickPoemLink(event);
       }
    });
 
