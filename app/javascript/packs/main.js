@@ -33,6 +33,18 @@ document.addEventListener("turbolinks:load", () => {
       locationEl.innerHTML = jsonResponse.city + ', ' + countryName
    }
    )
+
+   function setInitialForkTime() {
+      let initialFork = document.querySelector('.js-intro-fork');
+
+      initialFork.setAttribute('data-starttime', Math.floor(Date.now() / 1000));
+   }
+
+   setInitialForkTime();
+
+   function fillForm() {
+      let submitForm = document.querySelector('form');
+   }
    
    function fetchPoem(poemUrl) {
          return fetch(poemUrl).then(function(response) {
@@ -41,10 +53,6 @@ document.addEventListener("turbolinks:load", () => {
             return json;
          });
    }
-
-   // fetchPoem().then(function(result) {
-   //       console.log(result.title, result.body);
-   // });
 
    function addNewPoem(poemUrl, newPoemTitle) {
 
@@ -63,18 +71,16 @@ document.addEventListener("turbolinks:load", () => {
          forkContainer.appendChild(newBodyEl);
          forkContainer.classList.add('fork-holder');
 
+         forkContainer.setAttribute('data-starttime', Math.floor(Date.now() / 1000));
+
          allForksContainer.appendChild(forkContainer);
 
          let forksContainerPos = window.getComputedStyle(allForksContainer).left;
 
          if (!onMobile(forksContainerPos)) {
-      
             allForksContainer.style.left = `calc(${forksContainerPos} - 33vw`;
-            
           } else {
-
             allForksContainer.style.left = `calc(${forksContainerPos} - 100vw`;
-
           }
 
    });
@@ -98,7 +104,11 @@ document.addEventListener("turbolinks:load", () => {
       let 
       forkID = event.target.getAttribute('href'), 
       poemUrl = `http://127.0.0.1:3000/poems/${forkID}.json`,
-      newPoemTitle = event.target.innerText;
+      newPoemTitle = event.target.innerText,
+      form = document.querySelector('form');
+
+      form.setAttribute('action', `/poems/${forkID}`);
+      form.setAttribute('id', `edit_poem_${forkID}`);
 
       addNewPoem(poemUrl, newPoemTitle);
 
@@ -119,37 +129,21 @@ document.addEventListener("turbolinks:load", () => {
    allForksContainer.addEventListener('click', function(event) {
       if(event.target && event.target.nodeName == "A") {
          onClickPoemLink(event);
+
+         let forkStartTime = event.target.closest('.fork-holder').getAttribute('data-starttime');
+
+         console.log('Time at Load', forkStartTime);
+
+         showTime(forkStartTime);
       }
    });
 
+   function showTime(forkStartTime) {
+      let timeNow = Math.floor(Date.now() / 1000);
+      let timeElapsed = timeNow - forkStartTime;
 
-
-
-
-   // forksClick.addEventListener('click', function() {
-
-   //    fetchPoem().then(function(result) {
-
-   //       const newDiv = document.createElement('div');
-   //       const newTitleEl = document.createElement('p');
-   //       const textContent = result.title;
-
-   //       newTitleEl.innerHTML = textContent;
-   //       newDiv.appendChild(newTitleEl);
-   //       newDiv.style.width = '33vw';
-
-   //       forksContainer.appendChild(newDiv);
-
-   //       let forksContainerPos = window.getComputedStyle(forksContainer).left;
-
-   //       forksContainer.style.left = `calc(${forksContainerPos} - 33vw`;
-
-
-   // });
-
-   // })
-
-   
+      console.log('Seconds Reading', timeElapsed)
+   };
 
 
  })

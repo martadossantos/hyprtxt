@@ -1,11 +1,12 @@
 <%= javascript_pack_tag 'main' %>
+<%= csrf_meta_tag %>
 
 <div class="poems-index-container bg-pMediumGreen text-pDarkGreen font-serif flex flex-col md:flex-row justify-between">
 
    <div id="js-forks-container" class="main text-17 flex flex-row relative md:absolute md:pt-20 min-w-screen min-h-screen order-2">
 
       <%# div to duplicate w js %>
-      <div class="fork-holder">
+      <div class="js-intro-fork fork-holder">
          <p class="mb-3">Intro Fork Title</p>
          <div>
             <p>Intro fork body</p>
@@ -13,8 +14,11 @@
             <p>Another <a href="1">one elephant</a></p>
             <p>One line <a href="2">two tigers</a></p>
          </div>
+         <div>
+            <p>JS TIMER TEST</p>
+            <button id="start_timer">HOW LONG?</button>
+         </div>
       </div>
-
 
    </div>
 
@@ -25,14 +29,19 @@
       </div>
       <div class="breadcrumbs p-6">
          <div class="js-breadcrumbs-container max-h-[54px] md:max-h-auto md:overflow-visible overflow-scroll mb-breadcrumbs-container flex md:flex-col flex-col-reverse">
-
             <%# tag to repeat %>
             <a href="">Original Fork</a>
-
-
          </div>
-
       </div>
+
+
+      <%= @poems.each do |poem| %>
+         <%= simple_form_for poem, url: {controller: "poems", action: "update"} do |f| %>
+            <%= f.input :total_read_time, as: :numeric %>
+
+            <%= f.button :submit %>
+         <% end %>
+      <% end %>
       
    </div>
 

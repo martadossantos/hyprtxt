@@ -6,4 +6,6 @@ class Poem < ApplicationRecord
       @poem = Poem
    end
 
+   @poem = Poem.find(ids)
+
 end
