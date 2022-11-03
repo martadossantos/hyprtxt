@@ -6,7 +6,7 @@
    <div id="js-forks-container" class="main text-17 flex flex-row relative md:absolute md:pt-20 min-w-screen min-h-screen order-2">
 
       <%# div to duplicate w js %>
-      <div class="js-intro-fork fork-holder">
+      <div class="js-intro-fork fork-holder" poem-id="0">
          <p class="mb-3">Intro Fork Title</p>
          <div>
             <p>Intro fork body</p>
@@ -35,13 +35,17 @@
       </div>
 
 
-      <%= @poems.each do |poem| %>
-         <%= simple_form_for poem, url: {controller: "poems", action: "update"} do |f| %>
-            <%= f.input :total_read_time, as: :numeric %>
+      <div class="hidden">
+         <%= @poems.each do |poem| %>
+            <%= simple_form_for poem, url: poem_path(1), method: :put do |f| %>
+               <%= f.input :total_read_time, as: :numeric %>
 
-            <%= f.button :submit %>
+               <%= f.button :submit %>
+            <% end %>
          <% end %>
-      <% end %>
+      
+      </div>
+
       
    </div>
 

@@ -41,10 +41,6 @@ document.addEventListener("turbolinks:load", () => {
    }
 
    setInitialForkTime();
-
-   function fillForm() {
-      let submitForm = document.querySelector('form');
-   }
    
    function fetchPoem(poemUrl) {
          return fetch(poemUrl).then(function(response) {
@@ -72,6 +68,7 @@ document.addEventListener("turbolinks:load", () => {
          forkContainer.classList.add('fork-holder');
 
          forkContainer.setAttribute('data-starttime', Math.floor(Date.now() / 1000));
+         forkContainer.setAttribute('poem-id', result.id);
 
          allForksContainer.appendChild(forkContainer);
 
@@ -104,15 +101,21 @@ document.addEventListener("turbolinks:load", () => {
       let 
       forkID = event.target.getAttribute('href'), 
       poemUrl = `http://127.0.0.1:3000/poems/${forkID}.json`,
-      newPoemTitle = event.target.innerText,
-      form = document.querySelector('form');
-
-      form.setAttribute('action', `/poems/${forkID}`);
-      form.setAttribute('id', `edit_poem_${forkID}`);
+      newPoemTitle = event.target.innerText;
 
       addNewPoem(poemUrl, newPoemTitle);
 
       addBreadcrumb(forkID, newPoemTitle);
+
+      /// THIS IS WORKING WHEN POEMS ARE CLICKED ON LINK
+      /// WHEN CLICKED THRU BREADCRUMB
+      /// IT CAN'T FIND CLOSEST FORK HOLDER
+      let forkStartTime = event.target.closest('.fork-holder').getAttribute('data-starttime'),
+      clickedForkID = event.target.closest('.fork-holder').getAttribute('poem-id');
+
+      showTime(forkStartTime, clickedForkID);
+
+      findAndSubmitForm(clickedForkID);
    }
 
 
@@ -129,21 +132,21 @@ document.addEventListener("turbolinks:load", () => {
    allForksContainer.addEventListener('click', function(event) {
       if(event.target && event.target.nodeName == "A") {
          onClickPoemLink(event);
-
-         let forkStartTime = event.target.closest('.fork-holder').getAttribute('data-starttime');
-
-         console.log('Time at Load', forkStartTime);
-
-         showTime(forkStartTime);
       }
    });
 
-   function showTime(forkStartTime) {
+   function showTime(forkStartTime, clickedForkID) {
       let timeNow = Math.floor(Date.now() / 1000);
       let timeElapsed = timeNow - forkStartTime;
 
-      console.log('Seconds Reading', timeElapsed)
+      console.log('ID', clickedForkID, 'Seconds Reading', timeElapsed)
    };
+
+   function findAndSubmitForm(clickedForkID) {
+      let form = document.querySelector(`#edit_poem_${clickedForkID}`);
+
+      console.log('ID', clickedForkID, form);
+   }
 
 
  })

@@ -5,8 +5,6 @@ class PoemsController < ApplicationController
 
       @total_number_of_poems = @poems.count
 
-      @poem = Poem.new
-
    end
 
    def show
