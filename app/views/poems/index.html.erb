@@ -37,7 +37,7 @@
 
       <div class="hidden">
          <%= @poems.each do |poem| %>
-            <%= simple_form_for poem, url: poem_path(1), method: :put do |f| %>
+            <%= simple_form_for poem, url: poem_path(poem.id), remote: true, authenticity_token: true, method: :put do |f| %>
                <%= f.input :total_read_time, as: :numeric %>
 
                <%= f.button :submit %>
@@ -65,7 +65,7 @@
       <div class="meta p-6 border-b-1 border-pPurple">
          <div class="flex flex-col md:flex-row justify-between mb-3">
             <div class="md:mb-0 mb-3">301 unique visits</div>
-            <div>This fork has been read for 9 minutes</div>
+            <div>This fork has been read for <span class="js-fork-total-read-time"></span></div>
          </div>
          <div class="flex flex-col md:flex-row justify-between">
             <div>1019 total visits</div>

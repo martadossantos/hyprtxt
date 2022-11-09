@@ -58,6 +58,7 @@ document.addEventListener("turbolinks:load", () => {
          const newTitleEl = document.createElement('p');
          const newBodyEl = document.createElement('div');
          let newBodyContent = result.body;
+         let totalSecsRead = result.total_read_time;
 
          newTitleEl.innerHTML = newPoemTitle;
          newTitleEl.style.marginBottom = '12px';
@@ -70,6 +71,8 @@ document.addEventListener("turbolinks:load", () => {
          forkContainer.setAttribute('data-starttime', Math.floor(Date.now() / 1000));
          forkContainer.setAttribute('poem-id', result.id);
 
+         forkContainer.setAttribute('data-totalreadtime', totalSecsRead);
+
          allForksContainer.appendChild(forkContainer);
 
          let forksContainerPos = window.getComputedStyle(allForksContainer).left;
@@ -79,6 +82,12 @@ document.addEventListener("turbolinks:load", () => {
           } else {
             allForksContainer.style.left = `calc(${forksContainerPos} - 100vw`;
           }
+
+
+         let forkTimeSpan = document.querySelector('.js-fork-total-read-time'),
+         forkCalculatedTime = calculateForkReadTime(totalSecsRead);
+
+         forkTimeSpan.innerHTML = forkCalculatedTime;
 
    });
       
@@ -107,15 +116,6 @@ document.addEventListener("turbolinks:load", () => {
 
       addBreadcrumb(forkID, newPoemTitle);
 
-      /// THIS IS WORKING WHEN POEMS ARE CLICKED ON LINK
-      /// WHEN CLICKED THRU BREADCRUMB
-      /// IT CAN'T FIND CLOSEST FORK HOLDER
-      let forkStartTime = event.target.closest('.fork-holder').getAttribute('data-starttime'),
-      clickedForkID = event.target.closest('.fork-holder').getAttribute('poem-id');
-
-      showTime(forkStartTime, clickedForkID);
-
-      findAndSubmitForm(clickedForkID);
    }
 
 
@@ -126,26 +126,69 @@ document.addEventListener("turbolinks:load", () => {
    allBreadcrumbsContainer.addEventListener('click', function(event) {
       if (event.target && event.target.nodeName == "A") {
         onClickPoemLink(event);
+
+      //   console.log(event.target.parentElement.children[1])
+
+      //   console.log(allForksContainer.lastChild)
+
+        let forkStartTime = allForksContainer.lastChild.getAttribute('data-starttime'),
+        clickedForkID = allForksContainer.lastChild.getAttribute('poem-id'),
+        prevReadTime = allForksContainer.lastChild.getAttribute('data-totalreadtime');
+
+      //   showTime(forkStartTime);
+   
+        findAndSubmitForm(clickedForkID, forkStartTime, prevReadTime);
+
       }
    });
 
    allForksContainer.addEventListener('click', function(event) {
       if(event.target && event.target.nodeName == "A") {
          onClickPoemLink(event);
+
+         let forkStartTime = event.target.closest('.fork-holder').getAttribute('data-starttime'),
+         clickedForkID = event.target.closest('.fork-holder').getAttribute('poem-id'),
+         prevReadTime = event.target.closest('.fork-holder').getAttribute('data-totalreadtime');
+   
+         findAndSubmitForm(clickedForkID, forkStartTime, prevReadTime);
       }
    });
 
-   function showTime(forkStartTime, clickedForkID) {
+   function showTime(forkStartTime) {
       let timeNow = Math.floor(Date.now() / 1000);
       let timeElapsed = timeNow - forkStartTime;
 
-      console.log('ID', clickedForkID, 'Seconds Reading', timeElapsed)
+      return timeElapsed;
    };
 
-   function findAndSubmitForm(clickedForkID) {
-      let form = document.querySelector(`#edit_poem_${clickedForkID}`);
+   function findAndSubmitForm(clickedForkID, forkStartTime, prevReadTime) {
+      let form = document.querySelector(`#edit_poem_${clickedForkID}`),
+      inputField = form.querySelector('input#poem_total_read_time');
 
-      console.log('ID', clickedForkID, form);
+      let timeElapsed = showTime(forkStartTime);
+
+      let totalReadTime = parseInt(prevReadTime) + parseInt(timeElapsed);
+
+      inputField.setAttribute("value", totalReadTime);
+
+      form.submit();
+   }
+
+   function calculateForkReadTime(totalSecsRead) {
+      let mins = Math.floor(totalSecsRead / 60),
+      secs = totalSecsRead % 60;
+
+      var totalFormattedTime = 0;
+    
+      if (mins < 1) {
+         totalFormattedTime = secs + ' secs'
+      } else if (mins == 1) {
+         totalFormattedTime = mins + ' min and ' + secs + ' secs'
+      } else {
+         totalFormattedTime = mins + ' mins and ' + secs + ' secs'
+      }
+      
+      return totalFormattedTime;
    }
 
 
