@@ -13,4 +13,21 @@ class PoemsController < ApplicationController
       render json: @poem
    end
 
+
+   def edit
+      @poem = Poem.find(params[:id])
+   end
+
+   def update
+      @poem = Poem.find(params[:id])
+
+      @poem.update(form_params)
+   end
+
+
+   def form_params
+      params.require(:poem).permit(:total_read_time)
+   end
+
+
 end

@@ -33,6 +33,14 @@ document.addEventListener("turbolinks:load", () => {
       locationEl.innerHTML = jsonResponse.city + ', ' + countryName
    }
    )
+
+   function setInitialForkTime() {
+      let initialFork = document.querySelector('.js-intro-fork');
+
+      initialFork.setAttribute('data-starttime', Math.floor(Date.now() / 1000));
+   }
+
+   setInitialForkTime();
    
    function fetchPoem(poemUrl) {
          return fetch(poemUrl).then(function(response) {
@@ -42,10 +50,6 @@ document.addEventListener("turbolinks:load", () => {
          });
    }
 
-   // fetchPoem().then(function(result) {
-   //       console.log(result.title, result.body);
-   // });
-
    function addNewPoem(poemUrl, newPoemTitle) {
 
       fetchPoem(poemUrl, newPoemTitle).then(function(result) {
@@ -54,6 +58,7 @@ document.addEventListener("turbolinks:load", () => {
          const newTitleEl = document.createElement('p');
          const newBodyEl = document.createElement('div');
          let newBodyContent = result.body;
+         let totalSecsRead = result.total_read_time;
 
          newTitleEl.innerHTML = newPoemTitle;
          newTitleEl.style.marginBottom = '12px';
@@ -63,19 +68,26 @@ document.addEventListener("turbolinks:load", () => {
          forkContainer.appendChild(newBodyEl);
          forkContainer.classList.add('fork-holder');
 
+         forkContainer.setAttribute('data-starttime', Math.floor(Date.now() / 1000));
+         forkContainer.setAttribute('poem-id', result.id);
+
+         forkContainer.setAttribute('data-totalreadtime', totalSecsRead);
+
          allForksContainer.appendChild(forkContainer);
 
          let forksContainerPos = window.getComputedStyle(allForksContainer).left;
 
          if (!onMobile(forksContainerPos)) {
-      
             allForksContainer.style.left = `calc(${forksContainerPos} - 33vw`;
-            
           } else {
-
             allForksContainer.style.left = `calc(${forksContainerPos} - 100vw`;
-
           }
+
+
+         let forkTimeSpan = document.querySelector('.js-fork-total-read-time'),
+         forkCalculatedTime = calculateForkReadTime(totalSecsRead);
+
+         forkTimeSpan.innerHTML = forkCalculatedTime;
 
    });
       
@@ -103,6 +115,7 @@ document.addEventListener("turbolinks:load", () => {
       addNewPoem(poemUrl, newPoemTitle);
 
       addBreadcrumb(forkID, newPoemTitle);
+
    }
 
 
@@ -113,43 +126,70 @@ document.addEventListener("turbolinks:load", () => {
    allBreadcrumbsContainer.addEventListener('click', function(event) {
       if (event.target && event.target.nodeName == "A") {
         onClickPoemLink(event);
+
+      //   console.log(event.target.parentElement.children[1])
+
+      //   console.log(allForksContainer.lastChild)
+
+        let forkStartTime = allForksContainer.lastChild.getAttribute('data-starttime'),
+        clickedForkID = allForksContainer.lastChild.getAttribute('poem-id'),
+        prevReadTime = allForksContainer.lastChild.getAttribute('data-totalreadtime');
+
+      //   showTime(forkStartTime);
+   
+        findAndSubmitForm(clickedForkID, forkStartTime, prevReadTime);
+
       }
    });
 
    allForksContainer.addEventListener('click', function(event) {
       if(event.target && event.target.nodeName == "A") {
          onClickPoemLink(event);
+
+         let forkStartTime = event.target.closest('.fork-holder').getAttribute('data-starttime'),
+         clickedForkID = event.target.closest('.fork-holder').getAttribute('poem-id'),
+         prevReadTime = event.target.closest('.fork-holder').getAttribute('data-totalreadtime');
+   
+         findAndSubmitForm(clickedForkID, forkStartTime, prevReadTime);
       }
    });
 
+   function showTime(forkStartTime) {
+      let timeNow = Math.floor(Date.now() / 1000);
+      let timeElapsed = timeNow - forkStartTime;
 
+      return timeElapsed;
+   };
 
+   function findAndSubmitForm(clickedForkID, forkStartTime, prevReadTime) {
+      let form = document.querySelector(`#edit_poem_${clickedForkID}`),
+      inputField = form.querySelector('input#poem_total_read_time');
 
+      let timeElapsed = showTime(forkStartTime);
 
-   // forksClick.addEventListener('click', function() {
+      let totalReadTime = parseInt(prevReadTime) + parseInt(timeElapsed);
 
-   //    fetchPoem().then(function(result) {
+      inputField.setAttribute("value", totalReadTime);
 
-   //       const newDiv = document.createElement('div');
-   //       const newTitleEl = document.createElement('p');
-   //       const textContent = result.title;
+      form.submit();
+   }
 
-   //       newTitleEl.innerHTML = textContent;
-   //       newDiv.appendChild(newTitleEl);
-   //       newDiv.style.width = '33vw';
+   function calculateForkReadTime(totalSecsRead) {
+      let mins = Math.floor(totalSecsRead / 60),
+      secs = totalSecsRead % 60;
 
-   //       forksContainer.appendChild(newDiv);
-
-   //       let forksContainerPos = window.getComputedStyle(forksContainer).left;
-
-   //       forksContainer.style.left = `calc(${forksContainerPos} - 33vw`;
-
-
-   // });
-
-   // })
-
-   
+      var totalFormattedTime = 0;
+    
+      if (mins < 1) {
+         totalFormattedTime = secs + ' secs'
+      } else if (mins == 1) {
+         totalFormattedTime = mins + ' min and ' + secs + ' secs'
+      } else {
+         totalFormattedTime = mins + ' mins and ' + secs + ' secs'
+      }
+      
+      return totalFormattedTime;
+   }
 
 
  })

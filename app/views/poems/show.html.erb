@@ -1,2 +1,6 @@
-<%= @poem.title %>
-<%= @poem.body %>
+
+<%= simple_form_for @poem[1], :url => edit_poem_url do |f| %>
+   <%= f.input :total_read_time, as: :numeric %>
+
+   <%= f.button :submit %>
+<% end %>
